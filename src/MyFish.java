@@ -60,18 +60,27 @@ public class MyFish implements GLEventListener {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         gl.glPointSize(8.0f);
-        gl.glColor3f(1.0f, 0.5f, 0.5f);
 
         Button b = new Button(gl,0.25f,0.075f,true);
+        GLUT GLUT = new GLUT();
         for(int i = 0; i < 4; i++) {
+            gl.glColor3f(.0f, .0f, .0f);
+            b.Draw(-0.9425f+(i*(b.getWidth()+0.05f)), 0.8925f);
+
+            gl.glColor3f(1.0f, 0.5f, 0.5f);
             b.Draw(-0.95f+(i*(b.getWidth()+0.05f)), 0.9f);
         }
 
-        gl.glColor3f(.0f, .0f, .0f);
-
-        GLUT GLUT = new GLUT();
-        gl.glRasterPos2d(0.1, 0.1);
+        gl.glColor3f(0.0f, 0.0f, 0.0f);
+        gl.glRasterPos2d(-0.92f, 0.925f);
         GLUT.glutBitmapString(GLUT.BITMAP_8_BY_13, "Bubbles");
+        gl.glRasterPos2d(-0.62f, 0.925f);
+        GLUT.glutBitmapString(GLUT.BITMAP_8_BY_13, "Time");
+        gl.glRasterPos2d(-0.32f, 0.925f);
+        GLUT.glutBitmapString(GLUT.BITMAP_8_BY_13, "Plankton");
+        gl.glRasterPos2d(-0.02f, 0.925f);
+        GLUT.glutBitmapString(GLUT.BITMAP_8_BY_13, "Diagnostics");
+
 
         gl.glFlush();
     }
