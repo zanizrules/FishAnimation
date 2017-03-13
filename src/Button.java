@@ -1,37 +1,40 @@
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Created by Shane Birdsall on 12/03/2017.
  *
  */
-public class Button implements Shape {
-    private GL2 gl;
+public class Button extends Shape {
+    private GLUT glut = new GLUT();
+    private float width;
 
-    public float getWidth() {
+    private float height;
+
+    float getWidth() {
         return width;
     }
-
-    public float getHeight() {
+    float getHeight() {
         return height;
     }
 
-    private float width, height;
-    private boolean filled;
-
-    Button(GL2 graphic, float w, float h, boolean fill) {
-        gl = graphic;
+    Button(float w, float h) {
+        super();
         width = w;
         height = h;
-        filled = fill;
     }
 
     @Override
-    public void Draw(float x, float y) {
+    public void draw(GL2 gl, float x, float y) {
         gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2f(x, y);
             gl.glVertex2f(x+width, y);
             gl.glVertex2f(x+width, y+height);
             gl.glVertex2f(x, y+height);
         gl.glEnd();
+    }
+    void addText(GL2 gl, String text, float x, float y) {
+        gl.glRasterPos2d(x, y);
+        glut.glutBitmapString(GLUT.BITMAP_8_BY_13, text);
     }
 }

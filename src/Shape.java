@@ -1,14 +1,23 @@
-
+import com.jogamp.opengl.GL2;
 
 /**
- * Created by Shane Birdsall on 12/03/2017.
+ * Created by Shane on 13/03/2017.
  *
  */
-public interface Shape {
-    /**
-     * Used to draw a Shape
-     * @param x Bottom left x co-ordinate
-     * @param y Bottom left y co-ordinate
-     */
-    void Draw(float x, float y);
+public abstract class Shape {
+    boolean filled;
+
+    private Shape(boolean fill) {
+        filled = fill;
+    }
+    Shape() {
+        this(true);
+    }
+
+    abstract void draw(GL2 gl, float x, float y);
+
+    public boolean isFilled() {
+        return filled;
+    }
+
 }
