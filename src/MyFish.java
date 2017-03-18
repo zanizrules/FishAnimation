@@ -1,7 +1,3 @@
-/**
- * Created by Shane Birdsall on 12/03/2017.
- *
- */
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -14,6 +10,10 @@ import java.awt.event.WindowEvent;
 
 import static com.jogamp.opengl.GL2GL3.GL_POLYGON_SMOOTH;
 
+/**
+ * Created by Shane Birdsall on 12/03/2017.
+ *
+ */
 public class MyFish implements GLEventListener, MouseListener {
 
     private static int winSize;
@@ -31,6 +31,7 @@ public class MyFish implements GLEventListener, MouseListener {
     private Button bubbleBtn, buttons;
     private Water water;
     private Bubble bub;
+    private Fish fish;
 
     private MyFish() {
         super();
@@ -40,6 +41,7 @@ public class MyFish implements GLEventListener, MouseListener {
         greenWeed = new RoundWeed(0.15f, 0.03f, GREEN);
         water = new Water();
         bub = new Bubble(0.5f, 0.05f, -0.8f,0.001f);
+        fish = new Fish(0.125f, 0.05f, 0, 0);
     }
 
     public static void main(String[] args) {
@@ -124,19 +126,17 @@ public class MyFish implements GLEventListener, MouseListener {
         greenWeed.draw(gl, -0.7f,-1.0f);
 
 
-
         // Draw water
         gl.glEnable(GL_POLYGON_SMOOTH);
         water.draw(gl);
         gl.glDisable(GL_POLYGON_SMOOTH);
 
-        // bubbles test
 
+        // Draw Fish
+        fish.draw(gl);
 
 
         gl.glEnd();
-
-
 
         gl.glFlush();
     }
