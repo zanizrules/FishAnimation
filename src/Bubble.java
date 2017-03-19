@@ -9,8 +9,8 @@ class Bubble extends Circle {
     static final ColourRGB WHITE = new ColourRGB(1, 1, 1);
     private float speed;
 
-    Bubble(float transparency, float radius, float x, float speed) {
-        super(transparency, radius, x, -1.0f, BABY_BLUE, WHITE);
+    Bubble(float transparency, float radius, float x, float y, float speed) {
+        super(transparency, radius, x, y, BABY_BLUE, WHITE);
         this.speed = speed;
     }
 

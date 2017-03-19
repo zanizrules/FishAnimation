@@ -29,7 +29,7 @@ class Circle {
             gl.glVertex2d(x, y);
             gl.glColor4f(outside.red, outside.green, outside.blue, transparency);
             for(int i = 1; i < 360; i++) {
-                gl.glVertex2d(x + (radius * Math.cos(i * (2*Math.PI)/50)), y + (((radius * Math.sin(i * (2*Math.PI) / 50)))));
+                gl.glVertex2d(x + (radius * Math.cos(i * (2*Math.PI)/358)), y + (((radius * Math.sin(i * (2*Math.PI)/358)))));
             }
         gl.glEnd();
     }

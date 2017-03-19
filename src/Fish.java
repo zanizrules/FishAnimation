@@ -36,8 +36,6 @@ class Fish {
         // Draw parts of fish
         tailFin.draw(gl);
         body.draw(gl, x, y);
-        eye.draw(gl);
-        pupil.draw(gl);
         sideFin.draw(gl);
 
         // Draw Mouth
@@ -57,5 +55,9 @@ class Fish {
             sideFinMovement *= -1;
             count = 0;
         }
+    }
+    void drawEye(GL2 gl) {
+        eye.draw(gl);
+        pupil.draw(gl);
     }
 }

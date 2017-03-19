@@ -5,11 +5,10 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * Created by Shane Birdsall on 12/03/2017.
  *
  */
-public class Button extends Shape {
+class Button extends Shape {
     private GLUT glut = new GLUT();
-    private float width;
-
-    private float height;
+    private float width, height;
+    private boolean enabled;
 
     float getWidth() {
         return width;
@@ -22,6 +21,14 @@ public class Button extends Shape {
         super();
         width = w;
         height = h;
+    }
+
+    boolean isEnabled() {
+        return enabled;
+    }
+
+    void click() {
+        enabled = !enabled;
     }
 
     @Override

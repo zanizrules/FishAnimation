@@ -8,9 +8,9 @@ import static com.jogamp.opengl.GL.GL_SRC_ALPHA;
  *
  */
 class Water {
-    static final ColourRGB WATER = new ColourRGB(0.0f, 0.412f, 0.58f, 0.3f);
-    static final ColourRGB WATER_2 = new ColourRGB(0.0f, 0.2f, 0.6f, 0.3f);
-    private final float TIDE_HEIGHT = 0.8f;
+    private static final ColourRGB WATER = new ColourRGB(0.0f, 0.412f, 0.58f, 0.3f);
+    private static final ColourRGB WATER_2 = new ColourRGB(0.0f, 0.2f, 0.6f, 0.3f);
+    static final float TIDE_HEIGHT = 0.8f;
     private float[] waterLine;
     private float[] targetLine, currentLine;
     private float waterLevelChange;
