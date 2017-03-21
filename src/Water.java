@@ -24,7 +24,7 @@ class Water {
         targetLine = new float[wavePointAmount];
         for(int i = 0; i < wavePointAmount; i++) {
             currentLine[i] = waterLine[i] = TIDE_HEIGHT + (float) ((Math.sin((wavePointAmount)*(1.0f - (i*0.2f))))/48) +0.01f;
-            targetLine[i] = TIDE_HEIGHT + (float) -((Math.sin((wavePointAmount)*(1.0f - (i*0.2f))))/48) -0.01f;
+            targetLine[i] = TIDE_HEIGHT ;
         }
     }
 

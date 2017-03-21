@@ -19,8 +19,8 @@ class Shark {
         sizeFactor = size;
         jawClosed = false;
         jawMovement = 0.1f;
-        eye = new Circle(1.0f, size/3, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2), (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*size, Bubble.WHITE);
-        pupil = new Circle(1.0f, size/5, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2)+0.1f*size, (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*size, new ColourRGB(0,0,0));
+        eye = new Circle(1.0f, size/3, Bubble.WHITE);
+        pupil = new Circle(1.0f, size/5, new ColourRGB(0,0,0));
 
     }
 
@@ -117,10 +117,10 @@ class Shark {
     }
 
     void drawEyeAndTeeth(GL2 gl) {
-        eye.draw(gl);
-        pupil.draw(gl);
+        eye.draw(gl, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2), (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*sizeFactor);
+        pupil.draw(gl, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2)+0.1f*sizeFactor, (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*sizeFactor);
         // Draw Eyebrow
-        gl.glPointSize(10.0f);
+        gl.glLineWidth(6.5f);
         gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glVertex2d(x + (sizeFactor * 1.9), y + (sizeFactor * 2.5)); // Point x
             gl.glVertex2d(x + (sizeFactor * 2.7), y + (sizeFactor * 2.4)); // Point y

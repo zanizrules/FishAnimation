@@ -28,6 +28,15 @@ class Triangle {
         }
     }
 
+    void updatePositions(Point movement) {
+        a.x += movement.x;
+        a.y += movement.y;
+        b.x += movement.x;
+        b.y += movement.y;
+        c.x += movement.x;
+        c.y += movement.y;
+    }
+
     void draw(GL2 gl) {
         gl.glBegin(GL2.GL_TRIANGLE_STRIP);
         gl.glColor4d(innerCol.red, innerCol.green, innerCol.blue, 1.0f);

@@ -21,7 +21,7 @@ class TimeMask {
     }
 
     void draw(GL2 gl) {
-        if(transparency > 0.95f || transparency < 0) {
+        if(transparency > 1.2f || transparency < 0) {
             increaseBy *= -1;
         }
         transparency += increaseBy;

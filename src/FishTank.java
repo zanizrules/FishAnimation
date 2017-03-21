@@ -4,7 +4,8 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.opengl.GL2GL3.GL_POLYGON_SMOOTH;
@@ -129,6 +130,8 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
         // Draw Fish and Shark
         fish.draw(gl);
+
+
         shark.draw(gl);
 
         // Draw night mask
@@ -246,14 +249,32 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     @Override
     public void mouseExited(MouseEvent notUsed) {}
     @Override
-    public void keyTyped(KeyEvent notUsed) {}
+    public void keyTyped(KeyEvent event) {}
     @Override
-    public void keyPressed(KeyEvent notUsed) {}
+    public void keyPressed(KeyEvent event) {
+        if(!fish.isMoving()) {
+            if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+                fish.changeMovement(Direction.LEFT);
+            } else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
+                fish.changeMovement(Direction.RIGHT);
+            } else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+                fish.updateState(FishState.DOWN);
+            } else if(event.getKeyCode() == KeyEvent.VK_UP) {
+                fish.updateState(FishState.UP);
+            }
+        }
+    }
     @Override
-    public void keyReleased(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+    public void keyReleased(KeyEvent event) {
+        if(event.getKeyCode() == KeyEvent.VK_SPACE) {
             shark.snap();
             buttons[ButtonID.SHARK.id].click();
+        } else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
+            fish.changeMovement(Direction.LEFT);
+        } else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
+            fish.changeMovement(Direction.RIGHT);
+        }  else if(event.getKeyCode() == KeyEvent.VK_DOWN || event.getKeyCode() == KeyEvent.VK_UP) {
+            fish.updateState(FishState.NORMAL);
         }
     }
 }

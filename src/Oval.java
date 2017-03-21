@@ -8,7 +8,6 @@ class Oval extends Shape {
     private float transparency;
     private ColourRGB colour;
     private float xRadius, yRadius;
-    private float x,y;
 
     Oval(float trans, float xRad, float yRad, ColourRGB col) {
         transparency = trans;

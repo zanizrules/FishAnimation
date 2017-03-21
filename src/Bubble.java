@@ -8,15 +8,18 @@ class Bubble extends Circle {
     private static final ColourRGB BABY_BLUE = new ColourRGB(0.54f, 0.81f, 0.94f);
     static final ColourRGB WHITE = new ColourRGB(1, 1, 1);
     private float speed;
+    float x, y;
 
     Bubble(float transparency, float radius, float x, float y, float speed) {
-        super(transparency, radius, x, y, BABY_BLUE, WHITE);
+        super(transparency, radius, BABY_BLUE, WHITE);
+        this.x = x;
+        this.y = y;
         this.speed = speed;
     }
 
     void draw(GL2 gl) {
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
-            super.draw(gl);
+            super.draw(gl, x, y);
             this.y += speed;
             if(transparency > 0) {
                 this.transparency -= speed/2;
