@@ -3,7 +3,7 @@
  *
  */
 enum Direction {
-    LEFT(-0.005f), RIGHT(0.005f);
+    LEFT(-0.01f), RIGHT(0.01f);
 
     float speed;
     Direction(float speed) {

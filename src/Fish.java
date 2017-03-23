@@ -6,10 +6,11 @@ import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
  *
  */
 class Fish {
+    private static final float SAND_BOUND = -0.75f, EATEN = -0.3f;
     private float x, y, xRad, yRad, tailFinMovement, sideFinMovement, currentAngle;
     private Direction fishDirection;
     private FishState fishState;
-    private boolean moving;
+    private boolean moving, dead;
     private Oval body;
     private Circle eye, pupil;
     private Triangle tailFin, sideFin;
@@ -40,77 +41,102 @@ class Fish {
     void changeMovement(Direction direction) {
         fishDirection = direction;
         moving = !moving;
-        System.out.println("Moving: " + moving);
     }
     void updateState(FishState state) {
         fishState = state;
-        if(state != FishState.NORMAL) {
-            moving = false;
-        }
     }
 
     boolean isMoving() {
         return moving;
     }
 
+    boolean isEaten() {
+        return (y < Shark.UPPER_TEETH && y > Shark.LOWER_TEETH && x < EATEN);
+    }
+
+    void kill() {
+        dead = true;
+    }
+
+
     void draw(GL2 gl) {
-        if(!fishState.equals(FishState.NORMAL)) {
+        if(!dead) {
+            gl.glPushMatrix();
             currentAngle += fishState.angle;
-        }
 
-        gl.glPushMatrix();
+            if(moving) {
+                Point temp = new Point(0, 0);
+                if(addToX(fishDirection.speed * (float) Math.cos(Math.toRadians(currentAngle)))) {
+                    temp.x = fishDirection.speed * (float) Math.cos(Math.toRadians(currentAngle));
+                }
+                if(addToY(fishDirection.speed  * (float) Math.sin(Math.toRadians(currentAngle)))) {
+                    temp.y = fishDirection.speed  * (float) Math.sin(Math.toRadians(currentAngle));
+                }
+                sideFin.updatePositions(temp);
+                tailFin.updatePositions(temp);
+            }
 
-        if(moving) {
-            Point temp = new Point(0, 0);
+            // Check if eaten
+            if(isEaten()) {
+                System.out.println("Fish has ben eaten!");
+            }
 
-            x += fishDirection.speed;
-            temp.x = fishDirection.speed;
-            y += (Math.tan(Math.toRadians(currentAngle))*fishDirection.speed); // TODO: can use mod but thats not really a fix.
-            temp.y = (float) ((Math.tan(Math.toRadians(currentAngle))*fishDirection.speed));
+            // Rotate Fish
+            gl.glTranslatef(x, y, 0);
+            gl.glRotatef(currentAngle, 0, 0, 1.0f); // Rotates around Origin if not using glTranslatef
+            gl.glTranslatef(-x, -y, 0);
 
-            System.out.println("??: " + temp.y);
+            // Draw parts of fish
+            tailFin.draw(gl);
+            body.draw(gl, x, y);
+            sideFin.draw(gl);
 
-            sideFin.updatePositions(temp);
-            tailFin.updatePositions(temp);
-        }
-
-        // Rotate Fish
-        gl.glTranslatef(x, y, 0);
-        gl.glRotatef(currentAngle, 0, 0, 1.0f); // Rotates around Origin if not using glTranslatef
-        gl.glTranslatef(-x, -y, 0);
-
-        // Draw parts of fish
-        tailFin.draw(gl);
-        body.draw(gl, x, y);
-        sideFin.draw(gl);
-
-        // Draw Mouth
-        gl.glLineWidth(yRad*50);
-        gl.glColor3d(BLACK.red,BLACK.green,BLACK.blue);
-        gl.glBegin(GL2.GL_LINE_STRIP);
+            // Draw Mouth
+            gl.glLineWidth(yRad*50);
+            gl.glColor3d(BLACK.red,BLACK.green,BLACK.blue);
+            gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glVertex2d(x-xRad+(xRad/20),y-(yRad/3.5f));
             gl.glVertex2d(x-xRad+(xRad/5),y-(yRad/3.5f));
-        gl.glEnd();
-        gl.glFlush();
+            gl.glEnd();
+            gl.glFlush();
 
-        // Move fins
-        tailFin.moveBC(false, tailFinMovement);
-        sideFin.moveBC(false, sideFinMovement);
-        count++;
-        if(count > 7) {
-            tailFinMovement *= -1;
-            sideFinMovement *= -1;
-            count = 0;
+            // Move fins
+            tailFin.moveBC(false, tailFinMovement);
+            sideFin.moveBC(false, sideFinMovement);
+            count++;
+            if(count > 7) {
+                tailFinMovement *= -1;
+                sideFinMovement *= -1;
+                count = 0;
+            }
+            gl.glPopMatrix();
         }
-        gl.glPopMatrix();
+
     }
+
+    private boolean addToY(float y) {
+        if ((this.y + yRad)+ y <= Water.TIDE_HEIGHT && (this.y + yRad)+ y >= SAND_BOUND) {
+            this.y += y;
+            return true;
+        } return false;
+    }
+
+    private boolean addToX(float x) {
+        if ((this.x - xRad)+ x >= -1f  && (this.x + xRad)+ x <= 1f) {
+            this.x += x;
+            return true;
+        } return false;
+    }
+
     void drawEye(GL2 gl) {
-        gl.glPushMatrix();
-        gl.glTranslatef(x, y, 0);
-        gl.glRotatef(currentAngle, 0, 0, 1.0f);
-        gl.glTranslatef(-x, -y, 0);
-        eye.draw(gl, x-(xRad/1.4f), y+(yRad/6));
-        pupil.draw(gl, x-(xRad/1.4f), y+(yRad/6));
-        gl.glPopMatrix();
+        if(!dead) {
+            gl.glPushMatrix();
+                gl.glTranslatef(x, y, 0);
+                gl.glRotatef(currentAngle, 0, 0, 1.0f);
+                gl.glTranslatef(-x, -y, 0);
+                eye.draw(gl, x-(xRad/1.4f), y+(yRad/6));
+                pupil.draw(gl, x-(xRad/1.4f), y+(yRad/6));
+            gl.glPopMatrix();
+        }
     }
 }

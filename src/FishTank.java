@@ -131,9 +131,6 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         // Draw Fish and Shark
         fish.draw(gl);
 
-
-        shark.draw(gl);
-
         // Draw night mask
         if(buttons[ButtonID.TIME.id].isEnabled()) {
             timeMask.draw(gl);
@@ -146,6 +143,7 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
         // Draw Fish & Shark Eye
         fish.drawEye(gl);
+        shark.draw(gl);
         shark.drawEyeAndTeeth(gl);
 
         // Draw buttons
@@ -257,11 +255,12 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
                 fish.changeMovement(Direction.LEFT);
             } else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
                 fish.changeMovement(Direction.RIGHT);
-            } else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
-                fish.updateState(FishState.DOWN);
-            } else if(event.getKeyCode() == KeyEvent.VK_UP) {
-                fish.updateState(FishState.UP);
             }
+        }
+        if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+            fish.updateState(FishState.DOWN);
+        } else if(event.getKeyCode() == KeyEvent.VK_UP) {
+            fish.updateState(FishState.UP);
         }
     }
     @Override
@@ -269,6 +268,10 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         if(event.getKeyCode() == KeyEvent.VK_SPACE) {
             shark.snap();
             buttons[ButtonID.SHARK.id].click();
+            //Check if shark ate fish
+            if(shark.isJawClosed() && fish.isEaten()) {
+                fish.kill();
+            }
         } else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
             fish.changeMovement(Direction.LEFT);
         } else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {

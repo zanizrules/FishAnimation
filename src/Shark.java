@@ -5,6 +5,7 @@ import com.jogamp.opengl.GL2;
  *
  */
 class Shark {
+    static float UPPER_TEETH, LOWER_TEETH;
     private float x, y, sizeFactor, jawMovement;
     private Circle eye, pupil;
     private boolean jawClosed;
@@ -14,6 +15,7 @@ class Shark {
     private static final ColourRGB LIGHT_GRAY = new ColourRGB(0.8f, 0.8f, 0.8f);
 
     Shark(float size, float x, float y) {
+
         this.x = x;
         this.y = y;
         sizeFactor = size;
@@ -21,11 +23,15 @@ class Shark {
         jawMovement = 0.1f;
         eye = new Circle(1.0f, size/3, Bubble.WHITE);
         pupil = new Circle(1.0f, size/5, new ColourRGB(0,0,0));
-
+        UPPER_TEETH = y + (sizeFactor * 1.5f); // Point 3
+        LOWER_TEETH = y + (sizeFactor*-1); // Point 5
     }
 
     void snap() {
         jawClosed = !jawClosed;
+    }
+    boolean isJawClosed() {
+        return jawClosed;
     }
 
     void draw(GL2 gl) {
