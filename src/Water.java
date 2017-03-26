@@ -1,6 +1,5 @@
 import com.jogamp.opengl.GL2;
 
-import static com.jogamp.opengl.GL.GL_BLEND;
 import static com.jogamp.opengl.GL.GL_SRC_ALPHA;
 
 /**
@@ -34,15 +33,15 @@ class Water {
 
         gl.glLineWidth(8.0f);
         gl.glBegin(GL2.GL_LINE_STRIP);
-            gl.glColor4f(WATER.red, WATER.green, WATER.blue, WATER.alpha);
+            gl.glColor4f(WATER.RED, WATER.GREEN, WATER.BLUE, WATER.ALPHA);
             gl.glVertex2d(-1.0f, TIDE_HEIGHT);
-            gl.glColor4f(WATER_2.red, WATER_2.green, WATER_2.blue, WATER_2.alpha);
+            gl.glColor4f(WATER_2.RED, WATER_2.GREEN, WATER_2.BLUE, WATER_2.ALPHA);
             gl.glVertex2d(0.0f, TIDE_HEIGHT);
-            gl.glColor4f(WATER.red, WATER.green, WATER.blue, WATER.alpha);
+            gl.glColor4f(WATER.RED, WATER.GREEN, WATER.BLUE, WATER.ALPHA);
             gl.glVertex2d(1.0f, TIDE_HEIGHT);
         gl.glEnd();
 
-        gl.glColor4f(WATER.red, WATER.green, WATER.blue, WATER.alpha);
+        gl.glColor4f(WATER.RED, WATER.GREEN, WATER.BLUE, WATER.ALPHA);
 
         gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(-1.0f, TIDE_HEIGHT);

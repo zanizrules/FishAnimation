@@ -22,9 +22,9 @@ class Circle {
 
     void draw(GL2 gl, float x, float y) {
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
-            gl.glColor4f(inside.red, inside.green, inside.blue, transparency);
+            gl.glColor4f(inside.RED, inside.GREEN, inside.BLUE, transparency);
             gl.glVertex2d(x, y);
-            gl.glColor4f(outside.red, outside.green, outside.blue, transparency);
+            gl.glColor4f(outside.RED, outside.GREEN, outside.BLUE, transparency);
             for(int i = 1; i < 360; i++) {
                 gl.glVertex2d(x + (radius * Math.cos(i * (2*Math.PI)/358)), y + (((radius * Math.sin(i * (2*Math.PI)/358)))));
             }

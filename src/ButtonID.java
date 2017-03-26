@@ -9,7 +9,7 @@ enum ButtonID {
     BUBBLES(0), TIME(1), PLANKTON(2), SHARK(3), RESET(4);
 
     static HashMap<Integer, String> TEXT_DESCRIPTIONS = null;
-    int id;
+    final int ID;
 
     static void init() {
         if(TEXT_DESCRIPTIONS == null) {
@@ -22,7 +22,5 @@ enum ButtonID {
         }
     }
 
-    ButtonID(int id) {
-        this.id = id;
-    }
+    ButtonID(int id) { this.ID = id; }
 }

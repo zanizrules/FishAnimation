@@ -13,12 +13,12 @@ class Sand {
 
     static void draw(GL2 gl) {
         gl.glBegin(GL2.GL_POLYGON);
-            gl.glColor3d(SAND.red, SAND.green, SAND.blue);
+            gl.glColor3d(SAND.RED, SAND.GREEN, SAND.BLUE);
             gl.glVertex2d(-1.0f, SAND_HEIGHT);
             gl.glVertex2d(-1.0f, -1.0f);
             gl.glVertex2d(1.0f, -1.0f);
             gl.glVertex2d(1.0f, SAND_HEIGHT);
-            gl.glColor3d(WHITE_SAND.red, WHITE_SAND.green, WHITE_SAND.blue);
+            gl.glColor3d(WHITE_SAND.RED, WHITE_SAND.GREEN, WHITE_SAND.BLUE);
             for(int i = 0; i < 10; i++) {
                 gl.glVertex2d(1.0f - (i*0.2f), HEIGHTS[i]);
             }

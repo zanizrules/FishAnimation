@@ -40,9 +40,9 @@ class Triangle {
 
     void draw(GL2 gl) {
         gl.glBegin(GL2.GL_TRIANGLE_STRIP);
-        gl.glColor4d(innerCol.red, innerCol.green, innerCol.blue, 1.0f);
+        gl.glColor4d(innerCol.RED, innerCol.GREEN, innerCol.BLUE, 1.0f);
             gl.glVertex2d(pointA.x, pointA.y);
-            gl.glColor4d(outerCol.red, outerCol.green, outerCol.blue, transparency);
+            gl.glColor4d(outerCol.RED, outerCol.GREEN, outerCol.BLUE, transparency);
             gl.glVertex2d(pointB.x, pointB.y);
             gl.glVertex2d(pointC.x, pointC.y);
         gl.glEnd();

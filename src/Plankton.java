@@ -23,7 +23,7 @@ class Plankton {
 
     void draw(GL2 gl, float nightTransparency) {
         gl.glPointSize(SIZE);
-        gl.glColor4d(LIME.red, LIME.green, LIME.blue, nightTransparency);
+        gl.glColor4d(LIME.RED, LIME.GREEN, LIME.BLUE, nightTransparency);
         gl.glBegin(GL2.GL_POINTS);
             gl.glVertex2d(x, y);
         gl.glEnd();

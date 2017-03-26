@@ -6,14 +6,14 @@ import java.util.Random;
  * Created by Shane on 13/03/2017.
  * This class is used to create the round weed in the bottom left of the fish tank.
  */
-public class RoundWeed extends Shape {
-    private Random rand = new Random();
+class RoundWeed extends Shape {
+    private final Random rand = new Random();
     private float[] randomRadius;
-    private ColourRGB colour;
+    private final ColourRGB WEED_COLOUR;
 
     RoundWeed(float radius, float variance, ColourRGB rgb) {
         super();
-        colour = rgb;
+        WEED_COLOUR = rgb;
         initialiseArray(radius, variance);
     }
 
@@ -29,7 +29,7 @@ public class RoundWeed extends Shape {
         gl.glBegin(filled ? GL2.GL_TRIANGLE_FAN:GL2.GL_LINE_LOOP);
             gl.glColor3f(1.0f, 1.0f, 1.0f); // White
             gl.glVertex2d(x, y);
-            gl.glColor3f(colour.red, colour.green, colour.blue); // Custom defined colour
+            gl.glColor3f(WEED_COLOUR.RED, WEED_COLOUR.GREEN, WEED_COLOUR.BLUE); // Custom defined WEED_COLOUR
             for(int i = 1; i < 360; i++) {
                 gl.glVertex2d(x + (randomRadius[i] * Math.cos(i * (2*Math.PI)/50)), y + (((randomRadius[i] * Math.sin(i * (2*Math.PI) / 50)))));
             }

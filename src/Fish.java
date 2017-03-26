@@ -70,11 +70,11 @@ class Fish {
 
             if(moving) { // Animate the fish moving
                 Point temp = new Point(0, 0);
-                if(addToX(fishDirection.speed * (float) Math.cos(Math.toRadians(currentAngle)))) {
-                    temp.x = fishDirection.speed * (float) Math.cos(Math.toRadians(currentAngle));
+                if(addToX(fishDirection.SPEED * (float) Math.cos(Math.toRadians(currentAngle)))) {
+                    temp.x = fishDirection.SPEED * (float) Math.cos(Math.toRadians(currentAngle));
                 }
-                if(addToY(fishDirection.speed  * (float) Math.sin(Math.toRadians(currentAngle)))) {
-                    temp.y = fishDirection.speed  * (float) Math.sin(Math.toRadians(currentAngle));
+                if(addToY(fishDirection.SPEED * (float) Math.sin(Math.toRadians(currentAngle)))) {
+                    temp.y = fishDirection.SPEED * (float) Math.sin(Math.toRadians(currentAngle));
                 }
                 sideFin.updatePositions(temp);
                 tailFin.updatePositions(temp);
@@ -92,7 +92,7 @@ class Fish {
 
             // Draw Mouth
             gl.glLineWidth(yRad*50);
-            gl.glColor3d(BLACK.red,BLACK.green,BLACK.blue);
+            gl.glColor3d(BLACK.RED,BLACK.GREEN,BLACK.BLUE);
             gl.glBegin(GL2.GL_LINE_STRIP);
                 gl.glVertex2d(x-xRad+(xRad/20),y-(yRad/3.5f));
                 gl.glVertex2d(x-xRad+(xRad/5),y-(yRad/3.5f));

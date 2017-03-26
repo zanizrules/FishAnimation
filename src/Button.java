@@ -7,20 +7,20 @@ import com.jogamp.opengl.util.gl2.GLUT;
  */
 class Button extends Shape {
     private final static GLUT glut = new GLUT();
-    private float width, height;
+    private final float BUTTON_WIDTH, BUTTON_HEIGHT;
     private boolean enabled;
 
-    float getWidth() {
-        return width;
+    float getButtonWidth() {
+        return BUTTON_WIDTH;
     }
-    float getHeight() {
-        return height;
+    float getButtonHeight() {
+        return BUTTON_HEIGHT;
     }
 
     Button(float w, float h) {
         super();
-        width = w;
-        height = h;
+        BUTTON_WIDTH = w;
+        BUTTON_HEIGHT = h;
     }
 
     boolean isEnabled() {
@@ -35,9 +35,9 @@ class Button extends Shape {
     public void draw(GL2 gl, float x, float y) {
         gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2f(x, y);
-            gl.glVertex2f(x+width, y);
-            gl.glVertex2f(x+width, y+height);
-            gl.glVertex2f(x, y+height);
+            gl.glVertex2f(x+ BUTTON_WIDTH, y);
+            gl.glVertex2f(x+ BUTTON_WIDTH, y+ BUTTON_HEIGHT);
+            gl.glVertex2f(x, y+ BUTTON_HEIGHT);
         gl.glEnd();
     }
     void addText(GL2 gl, String text, float x, float y) {

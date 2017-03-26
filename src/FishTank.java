@@ -15,11 +15,11 @@ import static com.jogamp.opengl.GL2GL3.GL_POLYGON_SMOOTH;
  * Created by Shane Birdsall on 12/03/2017.
  * The FishTank class is responsible for animating all of the objects withing the fish tank.
  */
-public class FishTank implements GLEventListener, MouseListener, KeyListener, Runnable {
+class FishTank implements GLEventListener, MouseListener, KeyListener, Runnable {
     private static int winSize;
     private static final int MAX_BUBBLE_AMOUNT = 20;
     private static final int NUM_OF_BUTTONS = 5;
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     // Colours
     private static final ColourRGB RED = new ColourRGB(0.55f, 0.0f, 0.0f);
@@ -114,7 +114,7 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         Sand.draw(gl);
 
         // Draw bubbles
-        if(buttons[ButtonID.BUBBLES.id].isEnabled()) {
+        if(buttons[ButtonID.BUBBLES.ID].isEnabled()) {
             for(Bubble bub : bubbles) {
                 bub.draw(gl);
             }
@@ -144,9 +144,9 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         fish.draw(gl);
 
         // Draw night mask
-        if(buttons[ButtonID.TIME.id].isEnabled()) {
+        if(buttons[ButtonID.TIME.ID].isEnabled()) {
             timeMask.draw(gl);
-            if(buttons[ButtonID.PLANKTON.id].isEnabled()) {
+            if(buttons[ButtonID.PLANKTON.ID].isEnabled()) {
                 for(Plankton p : plankton) {
                     p.draw(gl, timeMask.getTransparency());
                 }
@@ -160,19 +160,19 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
         // Draw buttons
         for(int i = 0; i < NUM_OF_BUTTONS; i++) {
-            gl.glColor3f(BUTTON_SHADOW.red, BUTTON_SHADOW.green, BUTTON_SHADOW.blue);
+            gl.glColor3f(BUTTON_SHADOW.RED, BUTTON_SHADOW.GREEN, BUTTON_SHADOW.BLUE);
             // Draw shadow
-            buttons[i].draw(gl,-0.9425f+(i*(buttons[i].getWidth()+0.05f)), 0.8925f);
+            buttons[i].draw(gl,-0.9425f+(i*(buttons[i].getButtonWidth()+0.05f)), 0.8925f);
             if(buttons[i].isEnabled()) { // Button enabled
-                gl.glColor3f(BUTTON_CLICKED.red, BUTTON_CLICKED.green, BUTTON_CLICKED.blue);
+                gl.glColor3f(BUTTON_CLICKED.RED, BUTTON_CLICKED.GREEN, BUTTON_CLICKED.BLUE);
             } else { // Button not enabled
-                gl.glColor3f(BUTTON_COLOUR.red, BUTTON_COLOUR.green, BUTTON_COLOUR.red);
+                gl.glColor3f(BUTTON_COLOUR.RED, BUTTON_COLOUR.GREEN, BUTTON_COLOUR.RED);
             }
             // Draw Button
-            buttons[i].draw(gl, -0.95f+(i*(buttons[i].getWidth()+0.05f)), 0.9f);
+            buttons[i].draw(gl, -0.95f+(i*(buttons[i].getButtonWidth()+0.05f)), 0.9f);
 
             // Button text
-            gl.glColor3f(BUTTON_SHADOW.red, BUTTON_SHADOW.green, BUTTON_SHADOW.blue); // text same colour as button shadow
+            gl.glColor3f(BUTTON_SHADOW.RED, BUTTON_SHADOW.GREEN, BUTTON_SHADOW.BLUE); // text same colour as button shadow
             buttons[i].addText(gl, ButtonID.TEXT_DESCRIPTIONS.get(i), -0.92f+(i*0.3f), 0.925f);
         }
 
@@ -182,7 +182,7 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
     @Override
     public void run() {
-        while(buttons[ButtonID.BUBBLES.id].isEnabled()) {
+        while(buttons[ButtonID.BUBBLES.ID].isEnabled()) {
             if(bubbles.size() < MAX_BUBBLE_AMOUNT) {
                 // Generate a random bubble
                 float trans = rand.nextFloat() * (0.9f) + 0.1f;
@@ -231,22 +231,22 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         float openglY = 2.0f * ((winSize - (float)e.getY()) / winSize) - 1.0f;
 
         for(int i = 0; i < NUM_OF_BUTTONS; i++) {
-            if(openglX >= (-0.9425) + (i*(buttons[i].getWidth()+0.05f)) // If within bounds of the buttons[i]
-                    && openglX <= ((-0.9425) + (i*(buttons[i].getWidth()+0.05f)) + buttons[i].getWidth())
-                    && openglY >= 0.8925f && openglY <= 0.8925 + buttons[i].getHeight()) {
+            if(openglX >= (-0.9425) + (i*(buttons[i].getButtonWidth()+0.05f)) // If within bounds of the buttons[i]
+                    && openglX <= ((-0.9425) + (i*(buttons[i].getButtonWidth()+0.05f)) + buttons[i].getButtonWidth())
+                    && openglY >= 0.8925f && openglY <= 0.8925 + buttons[i].getButtonHeight()) {
                 buttons[i].click(); // enable button
-                if(i == ButtonID.SHARK.id) {
+                if(i == ButtonID.SHARK.ID) {
                     shark.snap();
                     eatFish();
                 }
-                if(i == ButtonID.RESET.id) {
+                if(i == ButtonID.RESET.ID) {
                     fish.reset();
                 }
                 if(buttons[i].isEnabled()) {
-                    if (i == ButtonID.BUBBLES.id) {
+                    if (i == ButtonID.BUBBLES.ID) {
                         // start generating bubbles. Thread stops when button clicked again
                         new Thread(this).start();
-                    } else if (i == ButtonID.TIME.id) {
+                    } else if (i == ButtonID.TIME.ID) {
                         timeMask.reset();
                     }
                 }
@@ -288,7 +288,7 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     public void keyReleased(KeyEvent event) {
         if(event.getKeyCode() == KeyEvent.VK_SPACE) { // snap sharks jaw
             shark.snap();
-            buttons[ButtonID.SHARK.id].click();
+            buttons[ButtonID.SHARK.ID].click();
             eatFish();
         } else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
             fish.changeMovement(Direction.LEFT);

@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Shane on 26/03/2017.
  * This class is responsible for the blood particles that are animated when the shark eats the fish.
  */
-public class BloodParticleSystem {
+class BloodParticleSystem {
     private static final ColourRGB BLOOD = new ColourRGB(0.6f, 0, 0);
     private static final int NUMBER_OF_PARTICLES = 300;
-    private float xOrigin, yOrigin;
-    private Queue<BloodParticle> particles;
+    private final float xOrigin, yOrigin;
+    private final Queue<BloodParticle> particles;
 
     BloodParticleSystem(float x, float y) {
         particles = new ConcurrentLinkedQueue<>();
@@ -47,9 +47,9 @@ public class BloodParticleSystem {
         gl.glPointSize(3f);
         gl.glBegin(GL2.GL_POINTS);
             for (BloodParticle p : particles) {
-                gl.glColor4d(BLOOD.red/2,  BLOOD.green, BLOOD.blue, p.transparency/2);
+                gl.glColor4d(BLOOD.RED /2,  BLOOD.GREEN, BLOOD.BLUE, p.transparency/2);
                 gl.glVertex2d(p.x, p.y);
-                gl.glColor4d(BLOOD.red,  BLOOD.green, BLOOD.blue, p.transparency);
+                gl.glColor4d(BLOOD.RED,  BLOOD.GREEN, BLOOD.BLUE, p.transparency);
                 gl.glVertex2d(p.x+0.001f, p.y+0.001f);
             }
         gl.glEnd();

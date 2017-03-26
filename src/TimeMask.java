@@ -22,7 +22,7 @@ class TimeMask {
         }
         transparency += increaseTransparencyBy;
 
-        gl.glColor4d(BLACK.red, BLACK.green, BLACK.blue, transparency);
+        gl.glColor4d(BLACK.RED, BLACK.GREEN, BLACK.BLUE, transparency);
         gl.glBegin(GL2.GL_POLYGON); // Fill whole screen
             gl.glVertex2d(-1.0f, -1.0f);
             gl.glVertex2d(1.0f, -1.0f);

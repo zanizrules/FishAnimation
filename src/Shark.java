@@ -31,28 +31,28 @@ class Shark {
     boolean isJawClosed() { return jawClosed; }
 
     void draw(GL2 gl) {
-        gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+        gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
 
         // Draw Head
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
             gl.glVertex2d(x,y); // Origin Point
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*1), y + (sizeFactor*3)); // Point 1
 
-            gl.glColor3d(LIGHT_GRAY.red, LIGHT_GRAY.green, LIGHT_GRAY.blue);
+            gl.glColor3d(LIGHT_GRAY.RED, LIGHT_GRAY.GREEN, LIGHT_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*7.5), y + (sizeFactor*4) - (jawClosed?jawMovement:0)); // Point 2
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
 
             gl.glVertex2d(x + (sizeFactor*6),y + (sizeFactor*1.5)- (jawClosed?jawMovement:0)); // Point 3
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*2),y); // Point 4
 
-            gl.glColor3d(LIGHT_GRAY.red, LIGHT_GRAY.green, LIGHT_GRAY.blue);
+            gl.glColor3d(LIGHT_GRAY.RED, LIGHT_GRAY.GREEN, LIGHT_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*6), y + (sizeFactor*-1) + (jawClosed?jawMovement:0)); // Point 5
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*4), y + (sizeFactor*-2)); // Point 6
             gl.glVertex2d(x + (sizeFactor*2), y + (sizeFactor*-1.8)); // Point 7
         gl.glEnd();
@@ -61,56 +61,56 @@ class Shark {
         gl.glLineWidth(5.0f);
         gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glVertex2d(x + (sizeFactor*1), y + (sizeFactor*3)); // Point 1
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d(x,y); // Origin Point
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*2), y + (sizeFactor*-1.8)); // Point 7
         gl.glEnd();
 
         // Draw Body
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d(x,y); // Origin Point
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*1), y + (sizeFactor*3)); // Point 1
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*2.8)); // Point a
 
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*-2.2)); // Point b
 
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*2), y + (sizeFactor*-1.8)); // Point 7
         gl.glEnd();
 
         // Draw Top Fin
         gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(x + (sizeFactor*1), y + (sizeFactor*3)); // Point 1
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*4.8)); // Point c
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*2.8)); // Point a
         gl.glEnd();
 
         // Draw Bottom Fin
         gl.glBegin(GL2.GL_POLYGON);
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*0.8f), y + (sizeFactor*-1.5)); // Point e
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*-3.5)); // Point d
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*-1.2f)); // Point b
         gl.glEnd();
 
         // Line strip that makes the bottom fins connection look nicer
         gl.glBegin(GL2.GL_LINE_STRIP);
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(x + (sizeFactor*0.8f), y + (sizeFactor*-1.5)); // Point e
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
+            gl.glColor3d(DARK_GRAY.RED, DARK_GRAY.GREEN, DARK_GRAY.BLUE);
             gl.glVertex2d((x + (sizeFactor*0.8f)-1.0f)/2, y + (sizeFactor*-1.3)); // Mid Point (e, b)
-            gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+            gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
             gl.glVertex2d(-1.0f, y + (sizeFactor*-1.2f)); // Point b
         gl.glEnd();
     }
@@ -127,12 +127,12 @@ class Shark {
         gl.glEnd();
 
         // Draw Teeth
-        gl.glColor3d(TEETH.red, TEETH.green, TEETH.blue);
+        gl.glColor3d(TEETH.RED, TEETH.GREEN, TEETH.BLUE);
         if(jawClosed) { // Draw closed jaw
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(x + (sizeFactor * 6), y + (sizeFactor * 1.5) - jawMovement); // Point 3
                 gl.glVertex2d(x + (sizeFactor*5.7), y + (sizeFactor*-1) + jawMovement);
-                gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+                gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
                 gl.glVertex2d(x + (sizeFactor * 2), y); // Point 4
             gl.glEnd();
         } else { // Draw open jaw
@@ -141,16 +141,16 @@ class Shark {
                 gl.glVertex2d(x + (sizeFactor * 5.8), y + (sizeFactor * (1.4)));
                 gl.glVertex2d(x + (sizeFactor * 5.6), y + (sizeFactor * (0.8)));
                 gl.glVertex2d(x + (sizeFactor * 5.4), y + sizeFactor);
-                gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+                gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
                 gl.glVertex2d(x + (sizeFactor * 2), y); // Point 4
             gl.glEnd();
 
-            gl.glColor3d(TEETH.red, TEETH.green, TEETH.blue);
+            gl.glColor3d(TEETH.RED, TEETH.GREEN, TEETH.BLUE);
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(x + (sizeFactor*6), y + (sizeFactor*-1)); // Point 5
                 gl.glVertex2d(x + (sizeFactor * 5.7), y + (sizeFactor * (-0.45)));
                 gl.glVertex2d(x + (sizeFactor * 5.5), y - sizeFactor*1.1);
-                gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
+                gl.glColor3d(BLACK_GRAY.RED, BLACK_GRAY.GREEN, BLACK_GRAY.BLUE);
                 gl.glVertex2d(x + (sizeFactor * 2), y); // Point 4
             gl.glEnd();
         }
