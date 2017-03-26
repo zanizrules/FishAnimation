@@ -2,7 +2,7 @@ import com.jogamp.opengl.GL2;
 
 /**
  * Created by Shane on 14/03/2017.
- *
+ * This class represents the bubbles that float up from the round weed.
  */
 class Bubble extends Circle {
     private static final ColourRGB BABY_BLUE = new ColourRGB(0.54f, 0.81f, 0.94f);
@@ -27,7 +27,6 @@ class Bubble extends Circle {
             if(radius > 0) {
                 this.radius -= speed/50;
             } else radius = 0;
-
         gl.glEnd();
     }
 }

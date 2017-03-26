@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Created by Shane on 13/03/2017.
- *
+ * This class is used to create the round weed in the bottom left of the fish tank.
  */
 public class RoundWeed extends Shape {
     private Random rand = new Random();
@@ -16,6 +16,7 @@ public class RoundWeed extends Shape {
         colour = rgb;
         initialiseArray(radius, variance);
     }
+
     private void initialiseArray(float radius, float variance) {
         randomRadius = new float[360];
         for(int i = 0; i < 360; i++) {

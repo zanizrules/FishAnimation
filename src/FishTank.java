@@ -8,16 +8,17 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static com.jogamp.opengl.GL.GL_BLEND;
 import static com.jogamp.opengl.GL2GL3.GL_POLYGON_SMOOTH;
 
 /**
  * Created by Shane Birdsall on 12/03/2017.
- *
+ * The FishTank class is responsible for animating all of the objects withing the fish tank.
  */
 public class FishTank implements GLEventListener, MouseListener, KeyListener, Runnable {
-
     private static int winSize;
     private static final int MAX_BUBBLE_AMOUNT = 20;
+    private static final int NUM_OF_BUTTONS = 5;
     private static Random rand = new Random();
 
     // Colours
@@ -30,6 +31,8 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     // Buttons
     private Button[] buttons;
 
+    private double prevTick; // Used for blood particle system
+
     // Fish tank objects/drawings
     private TimeMask timeMask;
     private RoundWeed redWeed;
@@ -39,12 +42,14 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     private Shark shark;
     private Queue<Bubble> bubbles;
     private Plankton[] plankton;
+    private BloodParticleSystem particleSystem;
 
     private FishTank() {
         super();
-        buttons = new Button[4];
-        for(int i = 0; i < 4; i++) {
-            buttons[i] = new Button(0.25f,0.075f);
+        ButtonID.init();
+        buttons = new Button[NUM_OF_BUTTONS];
+        for(int i = 0; i < NUM_OF_BUTTONS; i++) {
+            buttons[i] = new Button(0.25f, 0.075f);
         }
 
         redWeed = new RoundWeed(0.15f, 0.03f, RED);
@@ -59,16 +64,16 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
         }
 
         timeMask = new TimeMask();
+        particleSystem = new BloodParticleSystem(-0.35f, 0.05f);
     }
 
     public static void main(String[] args) {
-
         // Get appropriate frame size based on users resolution
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         winSize = (int) screenSize.getWidth()/2;
 
         // Construct a java.awt.Frame (application main window)
-        Frame frame = new Frame("My Fish");
+        Frame frame = new Frame("Shane's Fish Animation Game");
         frame.setResizable(false);
         GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
@@ -88,9 +93,6 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                // Run this on another thread than the AWT event queue to
-                // make sure the call to Animator.stop() completes before
-                // exiting
                 new Thread(() -> {
                     animator.stop();
                     System.exit(0);
@@ -106,7 +108,8 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        gl.glPointSize(8.0f);
+        gl.glEnable(GL_BLEND);
+
         //Draw Sand
         Sand.draw(gl);
 
@@ -125,10 +128,19 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
 
         // Draw water
         gl.glEnable(GL_POLYGON_SMOOTH);
-            water.draw(gl);
+        water.draw(gl);
         gl.glDisable(GL_POLYGON_SMOOTH);
 
-        // Draw Fish and Shark
+        // Draw blood
+        double tick = System.currentTimeMillis() / 1000.0; // time since last frame
+        if (prevTick > 0) {
+            // animate the particle system
+            particleSystem.animate(tick - prevTick);
+        }
+        prevTick = tick;
+        particleSystem.draw(gl);
+
+        // Draw Fish
         fish.draw(gl);
 
         // Draw night mask
@@ -141,13 +153,13 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
             }
         }
 
-        // Draw Fish & Shark Eye
+        // Draw Fish Eye & Shark
         fish.drawEye(gl);
         shark.draw(gl);
         shark.drawEyeAndTeeth(gl);
 
         // Draw buttons
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < NUM_OF_BUTTONS; i++) {
             gl.glColor3f(BUTTON_SHADOW.red, BUTTON_SHADOW.green, BUTTON_SHADOW.blue);
             // Draw shadow
             buttons[i].draw(gl,-0.9425f+(i*(buttons[i].getWidth()+0.05f)), 0.8925f);
@@ -158,15 +170,11 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
             }
             // Draw Button
             buttons[i].draw(gl, -0.95f+(i*(buttons[i].getWidth()+0.05f)), 0.9f);
+
+            // Button text
+            gl.glColor3f(BUTTON_SHADOW.red, BUTTON_SHADOW.green, BUTTON_SHADOW.blue); // text same colour as button shadow
+            buttons[i].addText(gl, ButtonID.TEXT_DESCRIPTIONS.get(i), -0.92f+(i*0.3f), 0.925f);
         }
-
-        // Button text
-        gl.glColor3f(BUTTON_SHADOW.red, BUTTON_SHADOW.green, BUTTON_SHADOW.blue); // text same colour as button shadow
-        buttons[ButtonID.BUBBLES.id].addText(gl, "Bubbles", -0.92f, 0.925f);
-        buttons[ButtonID.TIME.id].addText(gl, "Time", -0.62f, 0.925f);
-        buttons[ButtonID.PLANKTON.id].addText(gl, "Plankton", -0.32f, 0.925f);
-        buttons[ButtonID.SHARK.id].addText(gl, "Snap Jaw", -0.02f, 0.925f);
-
 
         gl.glEnd();
         gl.glFlush();
@@ -218,22 +226,25 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     @Override
     public void mousePressed(MouseEvent notUsed) {}
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) { // Used for checking button clicks
         float openglX = 2.0f * ((float)e.getX() / winSize) - 1.0f;
         float openglY = 2.0f * ((winSize - (float)e.getY()) / winSize) - 1.0f;
 
-        System.out.println("CLICK: " + openglX + "," + openglY);
-
-        for(int i = 0; i < 4; i++) {
-            if(openglX >= (-0.9425) + (i*(buttons[i].getWidth()+0.05f))
+        for(int i = 0; i < NUM_OF_BUTTONS; i++) {
+            if(openglX >= (-0.9425) + (i*(buttons[i].getWidth()+0.05f)) // If within bounds of the buttons[i]
                     && openglX <= ((-0.9425) + (i*(buttons[i].getWidth()+0.05f)) + buttons[i].getWidth())
-                    && openglY >= 0.8925f && openglY <= 0.8925 + buttons[ButtonID.BUBBLES.id].getHeight()) {
-                buttons[i].click();
+                    && openglY >= 0.8925f && openglY <= 0.8925 + buttons[i].getHeight()) {
+                buttons[i].click(); // enable button
                 if(i == ButtonID.SHARK.id) {
                     shark.snap();
+                    eatFish();
+                }
+                if(i == ButtonID.RESET.id) {
+                    fish.reset();
                 }
                 if(buttons[i].isEnabled()) {
                     if (i == ButtonID.BUBBLES.id) {
+                        // start generating bubbles. Thread stops when button clicked again
                         new Thread(this).start();
                     } else if (i == ButtonID.TIME.id) {
                         timeMask.reset();
@@ -242,14 +253,23 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
             }
         }
     }
+    private void eatFish() {
+        if(shark.isJawClosed() && fish.isEaten()) { //Check if shark ate fish
+            if(!fish.isAlive()) {
+                particleSystem.createBloodParticles();
+                fish.kill();
+            }
+        }
+    }
     @Override
     public void mouseEntered(MouseEvent notUsed) {}
     @Override
     public void mouseExited(MouseEvent notUsed) {}
     @Override
-    public void keyTyped(KeyEvent event) {}
+    public void keyTyped(KeyEvent notUsed) {}
     @Override
     public void keyPressed(KeyEvent event) {
+        // Movement of Fish
         if(!fish.isMoving()) {
             if(event.getKeyCode() == KeyEvent.VK_LEFT) {
                 fish.changeMovement(Direction.LEFT);
@@ -257,6 +277,7 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
                 fish.changeMovement(Direction.RIGHT);
             }
         }
+        // Rotation of fish
         if(event.getKeyCode() == KeyEvent.VK_DOWN) {
             fish.updateState(FishState.DOWN);
         } else if(event.getKeyCode() == KeyEvent.VK_UP) {
@@ -265,19 +286,16 @@ public class FishTank implements GLEventListener, MouseListener, KeyListener, Ru
     }
     @Override
     public void keyReleased(KeyEvent event) {
-        if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+        if(event.getKeyCode() == KeyEvent.VK_SPACE) { // snap sharks jaw
             shark.snap();
             buttons[ButtonID.SHARK.id].click();
-            //Check if shark ate fish
-            if(shark.isJawClosed() && fish.isEaten()) {
-                fish.kill();
-            }
+            eatFish();
         } else if(event.getKeyCode() == KeyEvent.VK_LEFT) {
             fish.changeMovement(Direction.LEFT);
         } else if(event.getKeyCode() == KeyEvent.VK_RIGHT) {
             fish.changeMovement(Direction.RIGHT);
         }  else if(event.getKeyCode() == KeyEvent.VK_DOWN || event.getKeyCode() == KeyEvent.VK_UP) {
-            fish.updateState(FishState.NORMAL);
+            fish.updateState(FishState.NORMAL); // Stop changing angle
         }
     }
 }

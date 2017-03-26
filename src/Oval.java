@@ -2,7 +2,7 @@ import com.jogamp.opengl.GL2;
 
 /**
  * Created by Shane Birdsall on 17/03/2017.
- *
+ * The oval class is used to make drawing custom oval shapes easier.
  */
 class Oval extends Shape {
     private float transparency;

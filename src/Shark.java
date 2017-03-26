@@ -2,20 +2,20 @@ import com.jogamp.opengl.GL2;
 
 /**
  * Created by Shane Birdsall on 19/03/2017.
- *
+ * The shark class contains all components used to draw the shark within the fish tank.
+ * Point numbers written in this class refer to the points labelled on the diagram in my work log.
  */
 class Shark {
+    private static final ColourRGB DARK_GRAY = new ColourRGB(0.5f, 0.5f, 0.5f);
+    private static final ColourRGB BLACK_GRAY = new ColourRGB(0.25f, 0.25f, 0.25f);
+    private static final ColourRGB LIGHT_GRAY = new ColourRGB(0.8f, 0.8f, 0.8f);
+    private static final ColourRGB TEETH = new ColourRGB(1f, 1f, 1f);
     static float UPPER_TEETH, LOWER_TEETH;
     private float x, y, sizeFactor, jawMovement;
     private Circle eye, pupil;
     private boolean jawClosed;
 
-    private static final ColourRGB DARK_GRAY = new ColourRGB(0.5f, 0.5f, 0.5f);
-    private static final ColourRGB BLACK_GRAY = new ColourRGB(0.25f, 0.25f, 0.25f);
-    private static final ColourRGB LIGHT_GRAY = new ColourRGB(0.8f, 0.8f, 0.8f);
-
     Shark(float size, float x, float y) {
-
         this.x = x;
         this.y = y;
         sizeFactor = size;
@@ -27,16 +27,11 @@ class Shark {
         LOWER_TEETH = y + (sizeFactor*-1); // Point 5
     }
 
-    void snap() {
-        jawClosed = !jawClosed;
-    }
-    boolean isJawClosed() {
-        return jawClosed;
-    }
+    void snap() { jawClosed = !jawClosed; }
+    boolean isJawClosed() { return jawClosed; }
 
     void draw(GL2 gl) {
         gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
-
 
         // Draw Head
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
@@ -51,14 +46,11 @@ class Shark {
 
             gl.glVertex2d(x + (sizeFactor*6),y + (sizeFactor*1.5)- (jawClosed?jawMovement:0)); // Point 3
 
-
             gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
             gl.glVertex2d(x + (sizeFactor*2),y); // Point 4
 
             gl.glColor3d(LIGHT_GRAY.red, LIGHT_GRAY.green, LIGHT_GRAY.blue);
             gl.glVertex2d(x + (sizeFactor*6), y + (sizeFactor*-1) + (jawClosed?jawMovement:0)); // Point 5
-
-            gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
 
             gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
             gl.glVertex2d(x + (sizeFactor*4), y + (sizeFactor*-2)); // Point 6
@@ -102,7 +94,7 @@ class Shark {
             gl.glVertex2d(-1.0f, y + (sizeFactor*2.8)); // Point a
         gl.glEnd();
 
-        // Draw Top Fin
+        // Draw Bottom Fin
         gl.glBegin(GL2.GL_POLYGON);
             gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
             gl.glVertex2d(x + (sizeFactor*0.8f), y + (sizeFactor*-1.5)); // Point e
@@ -112,11 +104,12 @@ class Shark {
             gl.glVertex2d(-1.0f, y + (sizeFactor*-1.2f)); // Point b
         gl.glEnd();
 
+        // Line strip that makes the bottom fins connection look nicer
         gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
             gl.glVertex2d(x + (sizeFactor*0.8f), y + (sizeFactor*-1.5)); // Point e
             gl.glColor3d(DARK_GRAY.red, DARK_GRAY.green, DARK_GRAY.blue);
-            gl.glVertex2d((x + (sizeFactor*0.8f)-1.0f)/2, y + (sizeFactor*-1.3)); // Mid Point
+            gl.glVertex2d((x + (sizeFactor*0.8f)-1.0f)/2, y + (sizeFactor*-1.3)); // Mid Point (e, b)
             gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
             gl.glVertex2d(-1.0f, y + (sizeFactor*-1.2f)); // Point b
         gl.glEnd();
@@ -125,6 +118,7 @@ class Shark {
     void drawEyeAndTeeth(GL2 gl) {
         eye.draw(gl, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2), (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*sizeFactor);
         pupil.draw(gl, (x + ((sizeFactor*1.9f) + (sizeFactor*2.7f))/2)+0.1f*sizeFactor, (y + ((sizeFactor*2.5f) + (sizeFactor*2.6f))/2)-0.4f*sizeFactor);
+
         // Draw Eyebrow
         gl.glLineWidth(6.5f);
         gl.glBegin(GL2.GL_LINE_STRIP);
@@ -133,15 +127,15 @@ class Shark {
         gl.glEnd();
 
         // Draw Teeth
-        gl.glColor3d(1.0f, 1.0f, 1.0f);
-        if(jawClosed) {
+        gl.glColor3d(TEETH.red, TEETH.green, TEETH.blue);
+        if(jawClosed) { // Draw closed jaw
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(x + (sizeFactor * 6), y + (sizeFactor * 1.5) - jawMovement); // Point 3
                 gl.glVertex2d(x + (sizeFactor*5.7), y + (sizeFactor*-1) + jawMovement);
                 gl.glColor3d(BLACK_GRAY.red, BLACK_GRAY.green, BLACK_GRAY.blue);
                 gl.glVertex2d(x + (sizeFactor * 2), y); // Point 4
             gl.glEnd();
-        } else {
+        } else { // Draw open jaw
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(x + (sizeFactor * 6), y + (sizeFactor * 1.5)); // Point 3
                 gl.glVertex2d(x + (sizeFactor * 5.8), y + (sizeFactor * (1.4)));
@@ -151,7 +145,7 @@ class Shark {
                 gl.glVertex2d(x + (sizeFactor * 2), y); // Point 4
             gl.glEnd();
 
-            gl.glColor3d(1.0f, 1.0f, 1.0f);
+            gl.glColor3d(TEETH.red, TEETH.green, TEETH.blue);
             gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(x + (sizeFactor*6), y + (sizeFactor*-1)); // Point 5
                 gl.glVertex2d(x + (sizeFactor * 5.7), y + (sizeFactor * (-0.45)));

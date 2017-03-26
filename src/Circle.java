@@ -2,7 +2,7 @@ import com.jogamp.opengl.GL2;
 
 /**
  * Created by Shane Birdsall on 18/03/2017.
- *
+ * The circle class was made in order for circular objects to be made and drawn easily.
  */
 class Circle {
     float transparency;

@@ -3,10 +3,10 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Created by Shane Birdsall on 12/03/2017.
- *
+ * This class represents the buttons used at the top of the fish tank
  */
 class Button extends Shape {
-    private GLUT glut = new GLUT();
+    private final static GLUT glut = new GLUT();
     private float width, height;
     private boolean enabled;
 

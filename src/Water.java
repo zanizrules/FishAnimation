@@ -5,7 +5,8 @@ import static com.jogamp.opengl.GL.GL_SRC_ALPHA;
 
 /**
  * Created by Shane on 13/03/2017.
- *
+ * This class is used to draw the water in the tank and a animated waterline using the
+ * rendering effects of the GL_POLYGON.
  */
 class Water {
     private static final ColourRGB WATER = new ColourRGB(0.0f, 0.412f, 0.58f, 0.3f);
@@ -29,7 +30,6 @@ class Water {
     }
 
     void draw(GL2 gl) {
-        gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         gl.glLineWidth(8.0f);
@@ -50,14 +50,13 @@ class Water {
             gl.glVertex2d(1.0f, -1.0f);
             gl.glVertex2d(1.0f, TIDE_HEIGHT);
 
-        // Moving water line start
+            // Moving water line start
             for(int i = 0; i < wavePointAmount; i++) {
-                if(Float.compare(Math.abs(currentLine[i] - targetLine[i]), 0.0005f) <= 0) { // When wave reaches target aprox
+                if(Float.compare(Math.abs(currentLine[i] - targetLine[i]), 0.0005f) <= 0) { // When wave reaches target
                     float temp = waterLine[i];   // Switch target line with standard water line
                     waterLine[i] = targetLine[i];
                     targetLine[i] = temp;
                 }
-
                 if(Float.compare(currentLine[i], targetLine[i]) >= 0) {
                     waterLevelChange = -0.0002f;
                 } else if(Float.compare(currentLine[i], targetLine[i]) <= 0) {

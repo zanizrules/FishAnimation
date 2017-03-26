@@ -1,17 +1,15 @@
 import com.jogamp.opengl.GL2;
-
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
  * Created by Shane Birdsall on 19/03/2017.
- *
+ * The plankton class is used to draw luminescent plankton at night time at the top of the tank
  */
 class Plankton {
-    static final int MAX_PLANKTON = 100;
     private static final ColourRGB LIME = new ColourRGB(0.08f, 1, 0.08f);
-    private static Random rand;
+    static final int MAX_PLANKTON = 100;
     private static final float SIZE = 2.5f;
+    private static Random rand;
     private float x, y;
 
     Plankton() {
